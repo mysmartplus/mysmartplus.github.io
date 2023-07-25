@@ -1,0 +1,146 @@
+/**
+ * Created by MarioGiovanny on 03/10/2015.
+ */
+$(function () {
+    $('.carousel').carousel();
+    $('#carousel-teotihuacan').carousel();
+	$(".bolsaFancy").fancybox({
+        maxWidth	: 800,
+        maxHeight	: 600,
+        fitToView	: false,
+        width		: '70%',
+        height		: '70%',
+        autoSize	: false,
+        closeClick	: false,
+        openEffect	: 'none',
+        closeEffect	: 'none',
+        wrapCSS : 'bgFancy'
+    });
+    $(window).bind('scroll', function () {
+        if ($(window).scrollTop() > 50)
+            $('#menu').addClass('menuFixed');
+        else
+            $('#menu').removeClass('menuFixed');
+		
+		/*
+        if ($(window).scrollTop() > 0)
+            $('#idTop').fadeIn();
+        else
+            $('#idTop').fadeOut();
+		*/
+    });
+    $(".fancybox").fancybox({
+        helpers: {
+            overlay: {
+                locked: false
+            }
+        },
+        beforeShow: function () {
+            $("body").css({"overflow": "hidden"});
+        },
+        afterClose: function () {
+            $("body").css({"overflow": "visible"});
+        }
+    });
+    $(".aviso").fancybox({
+        fitToView: true,
+        autoSize: false,
+        closeClick: false,
+        openEffect: 'none',
+        closeEffect: 'none',
+        helpers: {
+            overlay: {
+                locked: false
+            }
+        },
+        beforeShow: function () {
+            $("body").css({"overflow": "hidden"});
+        },
+        afterClose: function () {
+            $("body").css({"overflow": "visible"});
+        }
+    });
+    searchSetCSS();
+    $("#idTop").click(function () {
+        $("html, body").animate({scrollTop: 0}, "slow");
+        return false;
+    });
+    $('#menu a').click(function (e) {
+        event.preventDefault();
+        var attrID = $(this).attr('href');
+        $("html, body").animate({scrollTop: $(attrID).offset().top - 100}, "slow");
+        //console.log(attrID);
+    });
+	
+	/*
+    var $things = $('.specialBG');
+    $things.waypoint(function (direction) {
+        if (direction === "down") {
+            var elm = this.element.id;
+            var bg = $('#' + elm).attr('data-bg');
+            //console.log("up" + elm, bg);
+            if (bg != "") {
+                $.backstretch("includes/images/" + bg);
+            } else {
+                $('.backstretch').remove();
+            }
+        }
+    }, {
+        offset: '100%'
+    });
+    $things.waypoint(function (direction) {
+        if (direction === "up") {
+            var elm = this.element.id;
+            var bg = $('#' + elm).attr('data-bg');
+            //console.log("down" + elm, bg);
+            if (bg != "") {
+                $.backstretch("includes/images/" + bg);
+            } else {
+                $('.backstretch').remove();
+            }
+        }
+    }, {
+        offset: 'bottom-in-view'
+    });*/
+});
+$(window).resize(function () {
+    searchSetCSS();
+});
+function searchSetCSS() {
+    $("#StyleSearch").attr('href', 'http://www.opentable.com/ism/feed_transparent_horizontal.css');
+    if ($(window).width() < 700) {
+        $("#StyleSearch").attr('href', 'http://www.opentable.com/ism/feed_transparent.css');
+    }
+    if ($(window).width() < 450) {
+        $("#StyleSearch").attr('href', 'http://www.opentable.com/ism/feed_transparent_vertical_alt.css');
+    }
+}
+$(document).ready(function () {
+    $(document).click(function (event) {
+        var clickover = $(event.target);
+        var _opened = $(".navbar-collapse").hasClass("navbar-collapse collapse in");
+        if (_opened === true && !clickover.hasClass("navbar-toggle")) {
+            $("button.navbar-toggle").click();
+        }
+    });
+});
+var isMobile = {
+    Android: function () {
+        return navigator.userAgent.match(/Android/i);
+    },
+    BlackBerry: function () {
+        return navigator.userAgent.match(/BlackBerry/i);
+    },
+    iOS: function () {
+        return navigator.userAgent.match(/iPhone|iPad|iPod/i);
+    },
+    Opera: function () {
+        return navigator.userAgent.match(/Opera Mini/i);
+    },
+    Windows: function () {
+        return navigator.userAgent.match(/IEMobile/i);
+    },
+    any: function () {
+        return (isMobile.Android() || isMobile.BlackBerry() || isMobile.iOS() || isMobile.Opera() || isMobile.Windows());
+    }
+};

@@ -1,0 +1,94 @@
+function formSend(){
+	
+	
+	var nombre= $.trim($('#txtNombre').val());
+	var email= $.trim($('#txtEmail').val());
+	var email2= $.trim($('#txtEmail2').val());
+	var mensaje= $.trim($('#txtMensaje').val());
+	var priv= $('#cbPriv').is(':checked');
+	var capctha= $.trim($('#txtCaptcha').val());
+	
+	
+	
+	
+	if(nombre=='')
+	{
+		messageShow('ingrese nombre');
+		return;
+	}
+	
+	
+	if(email=='')
+	{
+		messageShow('ingrese email');
+		return;
+	}
+	
+	
+	var regex = /[\w-\.]{2,}@([\w-]{2,}\.)*([\w-]{2,}\.)[\w-]{2,4}/;
+ 
+    //Se utiliza la funcion test() nativa de JavaScript
+    if (!regex.test(email)) {
+        messageShow('ingrese email valido');
+		return;
+    }
+	
+	if (email!=email2) {
+        messageShow('Fallo la confirmación de email');
+		return;
+    }
+	
+	
+	if(mensaje=='')
+	{
+		messageShow('ingrese mensaje');
+		return;
+	}
+	
+	if(!priv)
+	{
+		messageShow('Debe aceptar politicas de privacidad');
+		return;
+	}
+	
+	if(capctha=='')
+	{
+		messageShow('ingrese texto de la imagen');
+		return;
+	}
+	
+	
+	
+	$.post( "send.php", { nombre: nombre, email: email, mensaje: mensaje, capctha:capctha })
+		.done(function( data ) {
+			var vectResp= data.split('||');
+			
+			if(vectResp[0]==1)
+			{
+				
+$('#txtNombre').val('');
+$('#txtEmail').val('');
+$('#txtMensaje').val('');
+$('#txtCaptcha').val('');				
+				
+				
+			}
+			
+			messageShow(vectResp[1]);
+			
+		
+	});
+	
+	
+	
+	
+}
+
+
+
+
+function  messageShow(msg)
+{
+	alert(msg);
+	
+}
